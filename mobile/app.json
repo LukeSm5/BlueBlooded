@@ -5,7 +5,7 @@
       "supabaseUrl": "https://arqucoetkktjydtumgyq.supabase.co",
       "supabaseAnonKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFycXVjb2V0a2t0anlkdHVtZ3lxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzNzY4NDksImV4cCI6MjA5NDk1Mjg0OX0.T1GPyzgXXGnq_8MvadkDmrV9YKzfkTFGNi6gb9wf_C8"
     },
-    "slug": "temp-expo",
+    "slug": "blueblooded",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -14,6 +14,7 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.blueblooded.app",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/android-icon-foreground.png",
