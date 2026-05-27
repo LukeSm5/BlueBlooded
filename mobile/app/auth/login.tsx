@@ -1,33 +1,74 @@
-import { useRouter } from 'expo-router';
-import { useState } from 'react';
-import { View } from 'react-native';
-import Button from '../../components/shared/Button';
-import TextInput from '../../components/shared/TextInput';
+// app/auth/login.tsx
+import { View, StyleSheet } from 'react-native'
+import { router } from 'expo-router'
+import { useState } from 'react'
+import TextInput from '../../components/shared/TextInput'
+import Button from '../../components/shared/Button'
 
-const LoginScreen = () => {
-    const router = useRouter();
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    
-    const login = async () => {
-        router.replace('/(tabs)')
-    }
+export default function Login() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
-    return (
-        <View>
-            <TextInput
-                label="Username"
-                value={username}
-                onChangeText={setUsername}
-            />
-            <TextInput
-                label="Password"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry
-            />
-            <Button label="Login" onPress={login} />
+  const handleLogin = async () => {
+    // your supabase login logic here
+  }
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.form}>
+
+        <TextInput
+          label="Email"
+          placeholder="you@example.com"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+        />
+
+        <TextInput
+          label="Password"
+          placeholder="••••••••"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
+
+        <View style={styles.buttons}>
+          <View style={styles.buttonWrapper}>
+            <Button label="Log in" onPress={handleLogin} fullWidth />
+          </View>
+          <View style={styles.buttonWrapper}>
+            <Button label="Register" onPress={() => router.push('/auth/register')} variant="secondary" fullWidth />
+          </View>
         </View>
-    );
-};
-export default LoginScreen;
+
+        <Button
+          label="Forgot password?"
+          onPress={() => router.push('/auth/reset')}
+          variant="ghost"
+          fullWidth
+        />
+
+      </View>
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 24,
+  },
+  form: {
+    width: '100%',
+  },
+  buttons: {
+    flexDirection: 'row',
+    gap: 10,
+    marginBottom: 8,
+  },
+  buttonWrapper: {
+    flex: 1,
+  },
+})
