@@ -1,4 +1,3 @@
-// app/auth/login.tsx
 import { View, StyleSheet } from 'react-native'
 import { router } from 'expo-router'
 import { useState } from 'react'
@@ -6,11 +5,12 @@ import TextInput from '../../components/shared/TextInput'
 import Button from '../../components/shared/Button'
 
 export default function Login() {
-  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
   const handleLogin = async () => {
     // your supabase login logic here
+    router.replace('/(tabs)')
   }
 
   return (
@@ -18,10 +18,10 @@ export default function Login() {
       <View style={styles.form}>
 
         <TextInput
-          label="Email"
-          placeholder="you@example.com"
-          value={email}
-          onChangeText={setEmail}
+          label="Username"
+          placeholder="you123"
+          value={username}
+          onChangeText={setUsername}
           keyboardType="email-address"
         />
 

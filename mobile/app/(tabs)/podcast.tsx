@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Button from '../../components/shared/Button';
 
 const PodcastScreen = () => {
@@ -16,4 +16,12 @@ const PodcastScreen = () => {
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    loginButton: {
+        position: 'absolute',
+        top: 16,
+        right: 16,
+    }
+})
 export default PodcastScreen;
