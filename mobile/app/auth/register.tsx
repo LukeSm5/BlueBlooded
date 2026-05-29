@@ -31,7 +31,6 @@ export default function Login() {
           placeholder="you123"
           value={username}
           onChangeText={setUsername}
-          keyboardType="email-address"
         />
 
         <TextInput
