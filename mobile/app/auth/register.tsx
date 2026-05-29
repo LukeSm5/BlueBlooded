@@ -1,5 +1,4 @@
-// app/auth/login.tsx
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, Text } from 'react-native'
 import { router } from 'expo-router'
 import { useState } from 'react'
 import TextInput from '../../components/shared/TextInput'
@@ -9,9 +8,18 @@ export default function Login() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [email, setEmail] = useState('')
+  const [error, setError] = useState('')
 
   const handleRegister = async () => {
-    // your supabase register logic here
+    setError('')
+    if (!email || !username.trim() || !password) {
+      setError('Please fill in all fields');
+      return;
+    }
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters long');
+      return;
+    }
     router.replace('/(tabs)')
   }
 
@@ -42,12 +50,13 @@ export default function Login() {
         />
         
 
+        {error ? <Text style={styles.error}>{error}</Text> : null}
         <View style={styles.buttons}>
           <View style={styles.buttonWrapper}>
             <Button label="Back" onPress={() => router.push('/auth/login')} fullWidth />
           </View>
           <View style={styles.buttonWrapper}>
-            <Button label="Register" onPress={() => router.push('/(tabs)')} variant="secondary" fullWidth />
+            <Button label="Register" onPress={handleRegister} variant="secondary" fullWidth />
           </View>
         </View>
 
@@ -61,6 +70,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: 24,
+  },
+  error: {
+    color: '#ef4444',
+    fontSize: 13,
+    marginBottom: 8,
   },
   form: {
     width: '100%',
