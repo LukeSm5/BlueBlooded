@@ -3,23 +3,35 @@ import { router } from 'expo-router'
 import { useState } from 'react'
 import TextInput from '../../components/shared/TextInput'
 import Button from '../../components/shared/Button'
+import { supabase } from '../../services/supabaseClient'
+import { validatePassword, validateEmail } from '../../utils/validateInput'
 
 export default function Login() {
-  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
 
   const handleLogin = async () => {
     setError('')
-    if (!username.trim() || !password) {
-      setError('Please fill in all fields');
+    const emailError = validateEmail(email);
+    if (emailError) {
+      setError(emailError);
       return;
     }
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters long');
+    const passwordError = validatePassword(password);
+    if (passwordError) {
+      setError(passwordError);
       return;
     }
-    router.replace('/(tabs)')
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email.trim(),
+      password,
+    });
+    if (error) {
+      setError(error.message);
+    } else {
+      router.replace('/(tabs)')
+    }
   }
 
   return (
@@ -27,10 +39,10 @@ export default function Login() {
       <View style={styles.form}>
 
         <TextInput
-          label="Username"
-          placeholder="you123"
-          value={username}
-          onChangeText={setUsername}
+          label="Email"
+          placeholder="you@example.com"
+          value={email}
+          onChangeText={setEmail}
           keyboardType="email-address"
         />
 
