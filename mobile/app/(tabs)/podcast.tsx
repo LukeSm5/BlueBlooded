@@ -2,6 +2,7 @@ import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Button from '../../components/shared/Button';
+import { colors } from '../../constants/colors';
 
 const PodcastScreen = () => {
     const router = useRouter();
@@ -11,13 +12,17 @@ const PodcastScreen = () => {
     }
 
     return (
-        <View>
+        <View style={styles.container}>
             <Button label="Login" onPress={login} />
         </View>
     );
 };
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: colors.background,
+    },
     loginButton: {
         position: 'absolute',
         top: 16,

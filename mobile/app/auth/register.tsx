@@ -87,7 +87,7 @@ export default function Login() {
             <Button label="Back" onPress={() => router.push('/auth/login')} fullWidth />
           </View>
           <View style={styles.buttonWrapper}>
-            <Button label="Register" onPress={handleRegister} variant="secondary" fullWidth />
+            <Button label="Register" onPress={handleRegister} variant="primary" fullWidth />
           </View>
         </View>
 

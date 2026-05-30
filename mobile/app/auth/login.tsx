@@ -59,7 +59,7 @@ export default function Login() {
             <Button label="Log in" onPress={handleLogin} fullWidth />
           </View>
           <View style={styles.buttonWrapper}>
-            <Button label="Register" onPress={() => router.push('/auth/register')} variant="secondary" fullWidth />
+            <Button label="Register" onPress={() => router.push('/auth/register')} variant="primary" fullWidth />
           </View>
         </View>
 
