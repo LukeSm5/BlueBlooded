@@ -7,7 +7,7 @@ jest.mock('expo-router', () => ({
 }))
 
 // Mock supabase
-jest.mock('../../../services/supabase', () => ({
+jest.mock('../../../services/supabaseClient', () => ({
   supabase: {
     auth: {
       signUp: jest.fn(),
@@ -22,7 +22,7 @@ describe('Register screen', () => {
     fireEvent.press(getByText('Register'))
     
     await waitFor(() => {
-      expect(getByText('Please fill in all fields')).toBeTruthy()
+      expect(getByText('Email is required')).toBeTruthy()
     })
   })
 
@@ -41,7 +41,7 @@ describe('Register screen', () => {
   })
 
   it('navigates to tabs on successful register', async () => {
-    const { supabase } = require('../../../services/supabase')
+    const { supabase } = require('../../../services/supabaseClient')
     const { router } = require('expo-router')
 
     supabase.auth.signUp.mockResolvedValueOnce({
@@ -53,7 +53,7 @@ describe('Register screen', () => {
 
     fireEvent.changeText(getByPlaceholderText('you@example.com'), 'test@test.com')
     fireEvent.changeText(getByPlaceholderText('you123'), 'testuser')
-    fireEvent.changeText(getByPlaceholderText('••••••••'), 'password123')
+    fireEvent.changeText(getByPlaceholderText('••••••••'), 'Password1')
 
     fireEvent.press(getByText('Register'))
 
@@ -63,7 +63,7 @@ describe('Register screen', () => {
   })
 
   it('shows supabase error message on failure', async () => {
-    const { supabase } = require('../../../services/supabase')
+    const { supabase } = require('../../../services/supabaseClient')
 
     supabase.auth.signUp.mockResolvedValueOnce({
       data: { user: null, session: null },
@@ -74,7 +74,7 @@ describe('Register screen', () => {
 
     fireEvent.changeText(getByPlaceholderText('you@example.com'), 'test@test.com')
     fireEvent.changeText(getByPlaceholderText('you123'), 'testuser')
-    fireEvent.changeText(getByPlaceholderText('••••••••'), 'password123')
+    fireEvent.changeText(getByPlaceholderText('••••••••'), 'Password1')
 
     fireEvent.press(getByText('Register'))
 
