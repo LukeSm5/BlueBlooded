@@ -13,7 +13,6 @@ const CommunityScreen = () => {
 
     return (
         <View style={styles.container}>
-            <Button label="Login" onPress={login} />
         </View>
     );
 };
