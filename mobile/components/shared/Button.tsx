@@ -1,4 +1,5 @@
 import { ActivityIndicator, Pressable, StyleSheet, Text } from 'react-native';
+import { colors } from '../../constants/colors';
 
 type Variant = 'primary' | 'secondary' | 'danger' | 'ghost';
 type Size = 'sm' | 'md' | 'lg';
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   // Variants
-  primary:   { backgroundColor: '#1a1a1a' },
+  primary:   { backgroundColor: colors.primary },
   secondary: { backgroundColor: 'transparent', borderWidth: 0.5, borderColor: '#00000030' },
   danger:    { backgroundColor: '#E24B4A' },
   ghost:     { backgroundColor: 'transparent' },
@@ -73,9 +74,9 @@ const styles = StyleSheet.create({
   pressed:   { opacity: 0.8 },
   // Labels
   label:          { fontWeight: '500' },
-  primaryLabel:   { color: '#fff' },
+  primaryLabel:   { color: colors.white },
   secondaryLabel: { color: '#1a1a1a' },
-  dangerLabel:    { color: '#fff' },
+  dangerLabel:    { color: colors.white },
   ghostLabel:     { color: '#666' },
   smLabel: { fontSize: 13 },
   mdLabel: { fontSize: 14 },
