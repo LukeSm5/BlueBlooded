@@ -3,6 +3,7 @@ import { router } from 'expo-router'
 import { useState } from 'react'
 import TextInput from '../../components/shared/TextInput'
 import Button from '../../components/shared/Button'
+import { supabase } from '../../services/supabaseClient'
 
 export default function Login() {
   const [username, setUsername] = useState('')
@@ -20,7 +21,29 @@ export default function Login() {
       setError('Password must be at least 6 characters long');
       return;
     }
-    router.replace('/(tabs)')
+
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          username: username.trim(),
+        },
+      }
+    });
+
+    if (error) {
+      setError(error.message);
+      return;
+    }
+
+    if (data.session === null) {
+      // User needs to verify their email
+      router.replace('/(tabs)');
+      return;
+    } else {
+      router.replace('/(tabs)')
+    }
   }
 
   return (
