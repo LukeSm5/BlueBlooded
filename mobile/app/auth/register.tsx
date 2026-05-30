@@ -4,6 +4,7 @@ import { useState } from 'react'
 import TextInput from '../../components/shared/TextInput'
 import Button from '../../components/shared/Button'
 import { supabase } from '../../services/supabaseClient'
+import { validatePassword, validateEmail, validateUsername } from '../../utils/validateInput'
 
 export default function Login() {
   const [username, setUsername] = useState('')
@@ -13,12 +14,19 @@ export default function Login() {
 
   const handleRegister = async () => {
     setError('')
-    if (!email || !username.trim() || !password) {
-      setError('Please fill in all fields');
+    const emailError = validateEmail(email);
+    if (emailError) {
+      setError(emailError);
       return;
     }
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters long');
+    const usernameError = validateUsername(username);
+    if (usernameError) {
+      setError(usernameError);
+      return;
+    }
+    const passwordError = validatePassword(password);
+    if (passwordError) {
+      setError(passwordError);
       return;
     }
 
