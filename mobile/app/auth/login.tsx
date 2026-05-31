@@ -1,10 +1,7 @@
 import { View, StyleSheet, Text } from 'react-native'
 import { router } from 'expo-router'
-import { useState } from 'react'
 import TextInput from '../../components/shared/TextInput'
 import Button from '../../components/shared/Button'
-import { supabase } from '../../services/supabaseClient'
-import { validatePassword, validateEmail } from '../../utils/validateInput'
 import { useAuth } from '../../hooks/useAuth'
 
 export default function Login() {

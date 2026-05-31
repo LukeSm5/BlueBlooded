@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, StyleSheet, SafeAreaView } from 'react-native';
 import Button from '../../components/shared/Button';
 import { colors } from '../../constants/colors';
 
@@ -12,8 +12,9 @@ const CommunityScreen = () => {
     }
 
     return (
-        <View style={styles.container}>
-        </View>
+        <SafeAreaView style={styles.container}>
+            <Text style={styles.title}>Discussion Board</Text>
+        </SafeAreaView>
     );
 };
 export default CommunityScreen;
@@ -23,4 +24,12 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.background,
     },
+    title: {
+        marginTop: 20,
+        color: colors.white,
+        fontSize: 24,
+        fontWeight: 'bold',
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
 })
