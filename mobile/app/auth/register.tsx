@@ -5,54 +5,10 @@ import TextInput from '../../components/shared/TextInput'
 import Button from '../../components/shared/Button'
 import { supabase } from '../../services/supabaseClient'
 import { validatePassword, validateEmail, validateUsername } from '../../utils/validateInput'
+import { useAuth } from '../../hooks/useAuth'
 
-export default function Login() {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [email, setEmail] = useState('')
-  const [error, setError] = useState('')
-
-  const handleRegister = async () => {
-    setError('')
-    const emailError = validateEmail(email);
-    if (emailError) {
-      setError(emailError);
-      return;
-    }
-    const usernameError = validateUsername(username);
-    if (usernameError) {
-      setError(usernameError);
-      return;
-    }
-    const passwordError = validatePassword(password);
-    if (passwordError) {
-      setError(passwordError);
-      return;
-    }
-
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          username: username.trim(),
-        },
-      }
-    });
-
-    if (error) {
-      setError(error.message);
-      return;
-    }
-
-    if (data.session === null) {
-      // User needs to verify their email
-      router.replace('/(tabs)');
-      return;
-    } else {
-      router.replace('/(tabs)')
-    }
-  }
+export default function Register() {
+  const { username, setUsername, password, setPassword, email, setEmail, error, loading, handleRegister} = useAuth();
 
   return (
     <View style={styles.container}>

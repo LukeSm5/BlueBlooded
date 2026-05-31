@@ -5,34 +5,10 @@ import TextInput from '../../components/shared/TextInput'
 import Button from '../../components/shared/Button'
 import { supabase } from '../../services/supabaseClient'
 import { validatePassword, validateEmail } from '../../utils/validateInput'
+import { useAuth } from '../../hooks/useAuth'
 
 export default function Login() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-
-  const handleLogin = async () => {
-    setError('')
-    const emailError = validateEmail(email);
-    if (emailError) {
-      setError(emailError);
-      return;
-    }
-    const passwordError = validatePassword(password);
-    if (passwordError) {
-      setError(passwordError);
-      return;
-    }
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: email.trim(),
-      password,
-    });
-    if (error) {
-      setError(error.message);
-    } else {
-      router.replace('/(tabs)')
-    }
-  }
+  const { email, setEmail, password, setPassword, error, loading, handleLogin } = useAuth();
 
   return (
     <View style={styles.container}>
