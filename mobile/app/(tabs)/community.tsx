@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Text, StyleSheet, SafeAreaView } from 'react-native';
+import { Text, StyleSheet, SafeAreaView, View } from 'react-native';
 import Button from '../../components/shared/Button';
 import { colors } from '../../constants/colors';
 import TextInput from '../../components/shared/TextInput';
@@ -12,14 +12,25 @@ const CommunityScreen = () => {
         router.push('/auth/login')
     }
 
+    const handleSearch = () => {
+        // Implement search functionality here
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <Text style={styles.title}>Discussion Board</Text>
-            <TextInput
-              placeholder="Search"
-              value={search}
-              onChangeText={setSearch}
-            />
+            <View style={styles.searchContainer}>
+                <Button style={styles.button} icon="search" onPress={handleSearch} size = "sm"/>
+                <View style={styles.inputWrapper}>
+                    <TextInput
+                        placeholder="Search"
+                        value={search}
+                        onChangeText={setSearch}
+                    />
+                </View>
+                <Button icon="options-outline" size = "sm" onPress={() => { /* Implement filter functionality here */ }} />
+            </View>
+            <Text style={styles.subtitle}>Topics</Text>
         </SafeAreaView>
     );
 };
@@ -34,7 +45,35 @@ const styles = StyleSheet.create({
         marginTop: 20,
         color: colors.white,
         fontSize: 24,
-        fontWeight: 'bold',
         textAlign: 'center',
+        fontFamily: 'Anton-Regular',
+    },
+    subtitle: {
+        marginTop: 10,
+        color: colors.white,
+        fontSize: 20,
+        textAlign: 'center',
+        fontFamily: 'Anton-Regular',
+    },
+    searchContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginHorizontal: 16,
+        marginTop: 8,
+        paddingHorizontal: 10,
+        paddingVertical: 8,
+        gap: 8,
+        
+    },
+    inputWrapper: { 
+      flex: 1,
+      marginBottom: -16,
+    },
+    button: {
+        width: 36,
+        height: 36,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 0,
     }
 })

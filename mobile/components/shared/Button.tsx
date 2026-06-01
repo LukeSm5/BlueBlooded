@@ -1,17 +1,21 @@
 import { ActivityIndicator, Pressable, StyleSheet, Text } from 'react-native';
 import { colors } from '../../constants/colors';
+import { Ionicons } from '@expo/vector-icons';
+import { StyleProp, ViewStyle } from 'react-native';
 
 type Variant = 'primary' | 'secondary' | 'danger' | 'ghost';
 type Size = 'sm' | 'md' | 'lg';
 
 interface ButtonProps {
-  label: string;
+  label?: string;
   onPress: () => void;
   variant?: Variant;
   size?: Size;
   disabled?: boolean;
   loading?: boolean;
   fullWidth?: boolean;
+  icon?: keyof typeof Ionicons.glyphMap;
+  style?: StyleProp<ViewStyle>;
 }
 
 export default function Button({
@@ -22,8 +26,12 @@ export default function Button({
   disabled = false,
   loading = false,
   fullWidth = false,
+  icon,
+  style = {},
 }: ButtonProps) {
   const isDisabled = disabled || loading;
+  const iconColor = variant === 'primary' || variant === 'danger' ? '#fff' : '#666'
+  const iconSize = size === 'sm' ? 14 : size === 'lg' ? 18 : 16
 
   return (
     <Pressable
@@ -36,6 +44,7 @@ export default function Button({
         fullWidth && styles.fullWidth,
         isDisabled && styles.disabled,
         pressed && !isDisabled && styles.pressed,
+        style,
       ]}
     >
       {loading && (
@@ -43,6 +52,9 @@ export default function Button({
           size="small"
           color={variant === 'primary' || variant === 'danger' ? '#fff' : '#000'}
         />
+      )}
+       {icon && !loading && (                // <-- add this block
+        <Ionicons name={icon} size={iconSize} color={iconColor} />
       )}
       <Text style={[styles.label, styles[`${variant}Label`], styles[`${size}Label`]]}>
         {label}
