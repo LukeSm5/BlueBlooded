@@ -12,7 +12,9 @@ export function CreateDiscussionModal() {
 
     return (
         <View>
-            <Button label="Create Discussion" onPress={() => setIsCreateOpen(true)} />
+            <View style={styles.buttonContainer}>
+            <Button label="Create Discussion" onPress={() => setIsCreateOpen(true)} size='sm' />
+            </View>
             <Modal
                 visible={isCreateOpen}
                 transparent
@@ -59,5 +61,10 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 12,
     width: '85%',
-  },
+    },
+    buttonContainer: {
+        position: 'absolute',
+        top: 10,
+        right: 10,
+    }
 })

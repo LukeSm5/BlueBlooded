@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Anton-Regular',
     },
     subtitle: {
-        marginTop: 10,
+        marginTop: 50,
         color: colors.white,
         fontSize: 20,
         textAlign: 'center',
