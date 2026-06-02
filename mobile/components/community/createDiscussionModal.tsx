@@ -1,0 +1,63 @@
+import { useCommunity } from '../../hooks/useCommunity';
+import { Modal, View, Text, StyleSheet } from 'react-native';
+import TextInput from '../shared/TextInput';
+import { useState } from 'react';
+import Button from '../shared/Button';
+import { colors } from '../../constants/colors';
+
+export function CreateDiscussionModal() {
+    const { isCreateOpen, setIsCreateOpen } = useCommunity();
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+
+    return (
+        <View>
+            <Button label="Create Discussion" onPress={() => setIsCreateOpen(true)} />
+            <Modal
+                visible={isCreateOpen}
+                transparent
+                animationType="slide"
+                onRequestClose={() => setIsCreateOpen(false)}
+            >
+                <View style={styles.backdrop}>
+                    <View style={styles.modalContent}>
+                        <Text>Create Discussion Post</Text>
+                        <TextInput
+                            label="Title"
+                            placeholder="Enter discussion title"
+                            value={title}
+                            onChangeText={setTitle}
+                        />
+                        <TextInput
+                            label="Content"
+                            placeholder="Enter discussion content"
+                            value={content}
+                            onChangeText={setContent}
+                            multiline
+                        />
+                        <Button label="Create" onPress={() => {
+                            // Handle create discussion logic here
+                            setIsCreateOpen(false);
+                        }} />
+                        <Button label="Cancel" onPress={() => setIsCreateOpen(false)} />
+                    </View>
+                </View>
+            </Modal>
+        </View>
+    )
+}
+
+const styles = StyleSheet.create({
+    backdrop: {
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.4)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modalContent: {
+    backgroundColor: colors.background,
+    padding: 20,
+    borderRadius: 12,
+    width: '85%',
+  },
+})

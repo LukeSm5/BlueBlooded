@@ -5,6 +5,7 @@ import Button from '../../components/shared/Button';
 import { colors } from '../../constants/colors';
 import TextInput from '../../components/shared/TextInput';
 import { CategoryFilter } from '../../components/community/categoryFilter';
+import { CreateDiscussionModal } from '../../components/community/createDiscussionModal';
 
 const CommunityScreen = () => {
     const router = useRouter();
@@ -32,6 +33,7 @@ const CommunityScreen = () => {
                 </View>
                 <CategoryFilter />
             </View>
+            <CreateDiscussionModal />
             <Text style={styles.subtitle}>Topics</Text>
         </SafeAreaView>
     );

@@ -2,6 +2,7 @@ import { useState } from 'react';
 export function useCommunity() {
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
+    const [isCreateOpen, setIsCreateOpen] = useState(false);
 
     function toggleCategory(category: string) {
         setSelectedCategory((prev) => {
@@ -19,6 +20,8 @@ export function useCommunity() {
         setIsFilterOpen,
         selectedCategory,
         toggleCategory,
-        clearFilters
+        clearFilters,
+        isCreateOpen,
+        setIsCreateOpen
     };
 }
