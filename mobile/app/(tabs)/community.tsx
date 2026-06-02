@@ -4,6 +4,8 @@ import { Text, StyleSheet, SafeAreaView, View } from 'react-native';
 import Button from '../../components/shared/Button';
 import { colors } from '../../constants/colors';
 import TextInput from '../../components/shared/TextInput';
+import { CategoryFilter } from '../../components/community/categoryFilter';
+
 const CommunityScreen = () => {
     const router = useRouter();
     const [search, setSearch] = useState('');
@@ -28,7 +30,7 @@ const CommunityScreen = () => {
                         onChangeText={setSearch}
                     />
                 </View>
-                <Button icon="options-outline" size = "sm" onPress={() => { /* Implement filter functionality here */ }} />
+                <CategoryFilter />
             </View>
             <Text style={styles.subtitle}>Topics</Text>
         </SafeAreaView>

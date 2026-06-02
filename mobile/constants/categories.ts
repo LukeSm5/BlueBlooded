@@ -1,8 +1,8 @@
-export const categories = {
-    CBB: 'College Basketball',
-    NBA: 'NBA',
-    Soccer: 'Soccer',
-    General: 'General',
-    TransferPortal: 'Transfer Portal',
-    Recruiting: 'Recruiting',
-}
+export const categories = [
+    'College Basketball',
+    'NBA',
+    'Soccer',
+    'General',
+    'Transfer Portal',
+    'Recruiting',
+]
