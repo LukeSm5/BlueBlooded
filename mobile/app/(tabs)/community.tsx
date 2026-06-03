@@ -1,4 +1,3 @@
-import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Text, StyleSheet, SafeAreaView, View } from 'react-native';
 import Button from '../../components/shared/Button';
@@ -8,12 +7,7 @@ import { CategoryFilter } from '../../components/community/categoryFilter';
 import { CreateDiscussionModal } from '../../components/community/createDiscussionModal';
 
 const CommunityScreen = () => {
-    const router = useRouter();
     const [search, setSearch] = useState('');
-
-    const login = async () => {
-        router.push('/auth/login')
-    }
 
     const handleSearch = () => {
         // Implement search functionality here

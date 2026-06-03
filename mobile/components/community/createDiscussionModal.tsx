@@ -4,6 +4,7 @@ import TextInput from '../shared/TextInput';
 import { useState } from 'react';
 import Button from '../shared/Button';
 import { colors } from '../../constants/colors';
+import { CategoryDropDown } from './categoryDropDown';
 
 export function CreateDiscussionModal() {
     const { isCreateOpen, setIsCreateOpen } = useCommunity();
@@ -23,7 +24,9 @@ export function CreateDiscussionModal() {
             >
                 <View style={styles.backdrop}>
                     <View style={styles.modalContent}>
-                        <Text>Create Discussion Post</Text>
+                        <View style={styles.title}>
+                            <Text>Create Discussion Post</Text>
+                        </View>
                         <TextInput
                             label="Title"
                             placeholder="Enter discussion title"
@@ -37,11 +40,14 @@ export function CreateDiscussionModal() {
                             onChangeText={setContent}
                             multiline
                         />
+                        <CategoryDropDown />
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
                         <Button label="Create" onPress={() => {
                             // Handle create discussion logic here
                             setIsCreateOpen(false);
                         }} />
                         <Button label="Cancel" onPress={() => setIsCreateOpen(false)} />
+                        </View>
                     </View>
                 </View>
             </Modal>
@@ -66,5 +72,11 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 10,
         right: 10,
+    },
+    title: {
+        color: colors.white,
+        fontSize: 18,
+        marginBottom: 12,
+        textAlign: 'center',
     }
 })
