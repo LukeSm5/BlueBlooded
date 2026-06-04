@@ -11,6 +11,7 @@ export function Header() {
             <Image
                 source={require('../../assets/images/BlueBlooded Logo.png')}
                 style={styles.logo}
+                resizeMode="contain"
             />
             <View style={styles.side}>
             <Button label="Login" onPress={() => router.push('/auth/login')} variant="primary" />
@@ -35,6 +36,5 @@ const styles = StyleSheet.create({
   logo: {
     height: 40,
     width: 120,
-    resizeMode: 'contain',
   },
 })

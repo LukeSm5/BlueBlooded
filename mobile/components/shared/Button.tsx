@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   disabled:  { opacity: 0.4 },
   pressed:   { opacity: 0.8 },
   // Labels
-  label:          { fontWeight: '500' },
+  label:          { fontWeight: '500', fontFamily: 'Inter-Regular' },
   primaryLabel:   { color: colors.white },
   secondaryLabel: { color: '#1a1a1a' },
   dangerLabel:    { color: colors.white },

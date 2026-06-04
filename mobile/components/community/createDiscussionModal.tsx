@@ -24,9 +24,7 @@ export function CreateDiscussionModal() {
             >
                 <View style={styles.backdrop}>
                     <View style={styles.modalContent}>
-                        <View style={styles.title}>
-                            <Text>Create Discussion Post</Text>
-                        </View>
+                        <Text style={styles.title}>Create Discussion Post</Text>
                         <TextInput
                             label="Title"
                             placeholder="Enter discussion title"
@@ -64,7 +62,7 @@ const styles = StyleSheet.create({
     },
     modalContent: {
     backgroundColor: colors.background,
-    padding: 20,
+    padding: 10,
     borderRadius: 12,
     width: '85%',
     },
@@ -78,5 +76,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginBottom: 12,
         textAlign: 'center',
+        fontFamily: 'Anton-Regular',
     }
 })

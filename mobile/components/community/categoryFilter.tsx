@@ -42,8 +42,10 @@ export function CategoryFilter() {
                                 );
                             })}
                         </View>
-                        <Button label="Clear Filters" onPress={clearFilters} size='sm' />
-                        <Button label="Close" onPress={() => setIsFilterOpen(false)} size='sm' />
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
+                            <Button label="Clear Filters" onPress={clearFilters} size='sm' />
+                            <Button label="Close" onPress={() => setIsFilterOpen(false)} size='sm' />
+                        </View>
                     </View>
                 </View>
             </Modal>

@@ -1,4 +1,5 @@
 import { View, Text, TextInput as RNTextInput, StyleSheet } from 'react-native'
+import { colors } from '../../constants/colors'
 
 interface TextInputProps {
   label?: string
@@ -56,8 +57,9 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#1a1a1a',
+    color: colors.white,
     marginBottom: 6,
+    fontFamily: 'Inter-Regular',
   },
   input: {
     borderWidth: 0.5,
