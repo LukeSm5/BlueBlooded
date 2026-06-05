@@ -7,9 +7,7 @@ import { colors } from '../../constants/colors';
 import { CategoryDropDown } from './categoryDropDown';
 
 export function CreateDiscussionModal() {
-    const { isCreateOpen, setIsCreateOpen } = useCommunity();
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
+    const { isCreateOpen, setIsCreateOpen, title, setTitle, content, setContent, error, setError, createDiscussion } = useCommunity();
 
     return (
         <View>
@@ -41,7 +39,7 @@ export function CreateDiscussionModal() {
                         <CategoryDropDown />
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
                         <Button label="Create" onPress={() => {
-                            // Handle create discussion logic here
+                            createDiscussion();
                             setIsCreateOpen(false);
                         }} />
                         <Button label="Cancel" onPress={() => setIsCreateOpen(false)} />

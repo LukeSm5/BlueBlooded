@@ -1,16 +1,29 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { validateEmail, validatePassword } from '../utils/validateInput'
 import { supabase } from '../services/supabaseClient'
 import { useRouter } from 'expo-router'
+import { User } from '@supabase/supabase-js'
 
 export function useAuth() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [username, setUsername] = useState('')
     const [loading, setLoading] = useState(false)
+    const [user, setUser] = useState<User | null>(null)
     const [error, setError] = useState('')
     const router = useRouter();
 
+     useEffect(() => {
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            setUser(session?.user ?? null);
+        });
+
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            setUser(session?.user ?? null);
+        });
+
+        return () => subscription.unsubscribe();
+    }, []);
 
     const validateSharedFields = () => {
         const emailError = validateEmail(email);
@@ -69,6 +82,7 @@ export function useAuth() {
         }
         router.replace('/(tabs)')
     }
-    return { email, setEmail, password, setPassword, username, setUsername, error, loading, handleLogin, handleRegister }
+    return { email, setEmail, password, setPassword, username,
+            setUsername, error, loading, handleLogin, handleRegister, user }
 
 }

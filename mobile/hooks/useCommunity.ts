@@ -1,8 +1,30 @@
 import { useState } from 'react';
+import { supabase } from '../services/supabaseClient';
 export function useCommunity() {
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
-    const [isCreateOpen, setIsCreateOpen] = useState(false);
+    const [isCreateOpen, setIsCreateOpen] = useState(false);  
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+    const [error, setError] = useState('');
+
+
+    async function createDiscussion() {
+        const { data, error } = await supabase.from('threads').insert({
+
+            title: title.trim(),
+            body: content.trim(),
+            category: selectedCategory, 
+            pinned: false,
+            is_deleted: false,
+        });
+
+        if (error) {
+            setError(error.message);
+            return;
+        }
+        setError('');
+    }
 
     function toggleCategory(category: string) {
         setSelectedCategory((prev) => {
@@ -22,6 +44,13 @@ export function useCommunity() {
         toggleCategory,
         clearFilters,
         isCreateOpen,
-        setIsCreateOpen
+        setIsCreateOpen,
+        createDiscussion,
+        title,
+        setTitle,
+        content,
+        setContent,
+        error,
+        setError
     };
 }
