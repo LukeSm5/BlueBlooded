@@ -1,23 +1,34 @@
-import React from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react-native'
 import Login from '../login'
 
 // ─── Mocks ───────────────────────────────────────────────────────────────────
 
-jest.mock('expo-router', () => ({
-  router: {
-    replace: jest.fn(),
-    push: jest.fn(),
-  },
-}))
+jest.mock('expo-router', () => {
+  const replace = jest.fn()
+  const push = jest.fn()
+  return { router: { replace, push },
+  useRouter: () => ({
+    replace,
+    push,
+    back: jest.fn(),
+  }),
+}
+})
 
 jest.mock('../../../services/supabaseClient', () => ({
   supabase: {
     auth: {
       signInWithPassword: jest.fn(),
+      getSession: jest.fn().mockResolvedValue({ data: { session: null } }),
+      onAuthStateChange: jest.fn().mockReturnValue({
+        data: { subscription: { unsubscribe: jest.fn() } },
+      }),
     },
   },
 }))
+
+
+// ─── rest of file unchanged ───────────────────────────────────────────────────
 
 jest.mock('../../../components/shared/TextInput', () => {
   const { TextInput } = require('react-native')
@@ -42,12 +53,12 @@ jest.mock('../../../components/shared/Button', () => {
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-import { supabase } from '../../../services/supabaseClient'
 import { router } from 'expo-router'
+import { supabase } from '../../../services/supabaseClient'
 
+const mockReplace = router.replace as jest.Mock
+const mockPush = router.push as jest.Mock
 const mockSignIn = supabase.auth.signInWithPassword as jest.Mock
-const mockRouterReplace = router.replace as jest.Mock
-const mockRouterPush = router.push as jest.Mock
 
 const fillAndSubmit = (
   { getByPlaceholderText, getByTestId }: any,
@@ -65,6 +76,11 @@ describe('Login Screen', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
+    // re-apply session mocks after clearAllMocks resets them
+    ;(supabase.auth.getSession as jest.Mock).mockResolvedValue({ data: { session: null } });
+    ;(supabase.auth.onAuthStateChange as jest.Mock).mockReturnValue({
+      data: { subscription: { unsubscribe: jest.fn() } },
+    })
   })
 
   // ── Rendering ──────────────────────────────────────────────────────────────
@@ -172,7 +188,7 @@ describe('Login Screen', () => {
       const utils = render(<Login />)
       fillAndSubmit(utils, 'test@example.com', 'Password1')
       await waitFor(() => {
-        expect(mockRouterReplace).toHaveBeenCalledWith('/(tabs)')
+        expect(mockReplace).toHaveBeenCalledWith('/(tabs)')
       })
     })
 
@@ -183,7 +199,7 @@ describe('Login Screen', () => {
       await waitFor(() => {
         expect(utils.getByText('Invalid login credentials')).toBeTruthy()
       })
-      expect(mockRouterReplace).not.toHaveBeenCalled()
+      expect(mockReplace).not.toHaveBeenCalled()
     })
 
     it('does not navigate when Supabase returns an error', async () => {
@@ -191,7 +207,7 @@ describe('Login Screen', () => {
       const utils = render(<Login />)
       fillAndSubmit(utils, 'test@example.com', 'Password1')
       await waitFor(() => expect(utils.getByText('User not found')).toBeTruthy())
-      expect(mockRouterReplace).not.toHaveBeenCalled()
+      expect(mockReplace).not.toHaveBeenCalled()
     })
   })
 
@@ -201,13 +217,13 @@ describe('Login Screen', () => {
     it('navigates to /auth/register when Register is pressed', () => {
       const { getByTestId } = render(<Login />)
       fireEvent.press(getByTestId('Register'))
-      expect(mockRouterPush).toHaveBeenCalledWith('/auth/register')
+      expect(mockPush).toHaveBeenCalledWith('/auth/register')
     })
 
     it('navigates to /auth/reset when Forgot password? is pressed', () => {
       const { getByTestId } = render(<Login />)
       fireEvent.press(getByTestId('Forgot password?'))
-      expect(mockRouterPush).toHaveBeenCalledWith('/auth/reset')
+      expect(mockPush).toHaveBeenCalledWith('/auth/reset')
     })
   })
 

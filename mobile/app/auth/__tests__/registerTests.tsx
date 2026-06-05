@@ -1,16 +1,22 @@
 import { render, fireEvent, waitFor } from '@testing-library/react-native'
 import Register from '../register'
 
-// Mock expo-router
+const mockReplace = jest.fn()
+const mockPush = jest.fn()
+
 jest.mock('expo-router', () => ({
-  router: { replace: jest.fn(), push: jest.fn() },
+  router: { replace: mockReplace, push: mockPush },
+  useRouter: () => ({ replace: mockReplace, push: mockPush, back: jest.fn() }),
 }))
 
-// Mock supabase
 jest.mock('../../../services/supabaseClient', () => ({
   supabase: {
     auth: {
       signUp: jest.fn(),
+      getSession: jest.fn().mockResolvedValue({ data: { session: null } }),
+      onAuthStateChange: jest.fn().mockReturnValue({
+        data: { subscription: { unsubscribe: jest.fn() } }
+      }),
     },
   },
 }))
@@ -58,7 +64,7 @@ describe('Register screen', () => {
     fireEvent.press(getByText('Register'))
 
     await waitFor(() => {
-      expect(router.replace).toHaveBeenCalledWith('/(tabs)')
+      expect(mockReplace).toHaveBeenCalledWith('/(tabs)')
     })
   })
 
