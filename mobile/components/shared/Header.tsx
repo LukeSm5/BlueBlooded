@@ -2,9 +2,11 @@ import { View, StyleSheet, Image, Text } from 'react-native';
 import { colors } from '../../constants/colors';
 import Button  from './Button';
 import { useRouter } from 'expo-router';
+import { useAuth } from '../../hooks/useAuth';
 
 export function Header() {
     const router = useRouter();
+    const { user, handleLogout } = useAuth();
     return (
         <View style={styles.container}>
             <View style={styles.side}/>
@@ -14,7 +16,8 @@ export function Header() {
                 resizeMode="contain"
             />
             <View style={styles.side}>
-            <Button label="Login" onPress={() => router.push('/auth/login')} variant="primary" />
+            {user ? <Button label="Logout" onPress={handleLogout} variant="primary"/>
+            : <Button label="Login" onPress={() => router.push('/auth/login')} variant="primary" /> }
             </View>
         </View>
     );

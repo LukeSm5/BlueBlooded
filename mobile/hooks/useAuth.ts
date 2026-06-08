@@ -82,7 +82,22 @@ export function useAuth() {
         }
         router.replace('/(tabs)')
     }
+    
+    const handleLogout = async () => {
+        setError('')
+        setLoading(true);
+        const { error } = await supabase.auth.signOut();
+        setLoading(false);
+
+        if (error) {
+            setError(error.message);
+            return;
+        }
+        router.replace('/auth/login')
+    }
+
     return { email, setEmail, password, setPassword, username,
-            setUsername, error, loading, handleLogin, handleRegister, user }
+            setUsername, error, loading, handleLogin, handleRegister, user,
+        handleLogout }
 
 }

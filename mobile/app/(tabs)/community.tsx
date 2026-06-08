@@ -56,7 +56,6 @@ const CommunityScreen = () => {
                 </View>
                 <CategoryFilter />
             </View>
-            <CreateDiscussionModal />
              <ScrollView contentContainerStyle={styles.feed}>
             <Text style={styles.subtitle}>Top Posts</Text>
             {loading ? (
@@ -90,8 +89,9 @@ const CommunityScreen = () => {
                 ))
             )}
         </ScrollView>
-            <Text style={styles.subtitle}>Topics</Text>
+        <CreateDiscussionModal />
         </SafeAreaView>
+
     );
 };
 export default CommunityScreen;
