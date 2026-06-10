@@ -1,13 +1,27 @@
-import { View } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { Tabs } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
 import { Header } from '../../components/shared/Header'
 import { colors } from '../../constants/colors'
+import { useState } from 'react'
+import { useAuth } from '../../hooks/useAuth'
 
 export default function TabLayout() {
+  const [profileVisible, setProfileVisible] = useState(false);
+  const { profile, handleLogout } = useAuth();
   return (
     <View style={{ flex: 1 }}>
-      <Header />
+      <Header onProfilePress={() => setProfileVisible(prev => !prev)} />
+      {profileVisible && (
+        <View style={styles.profileDropdown}>
+          <Text style={styles.username}>{profile?.username}</Text>
+          <Text style={styles.bio}>No bio yet.</Text>
+          <View style={styles.divider} />
+          <TouchableOpacity onPress={() => { handleLogout(); setProfileVisible(false); }}>
+            <Text style={styles.logout}>Log Out</Text>
+          </TouchableOpacity>
+        </View>
+      )}
       <Tabs
         screenOptions={{
           headerShown: false,
@@ -47,3 +61,40 @@ export default function TabLayout() {
     </View>
   )
 }
+
+
+const styles = StyleSheet.create({
+  bio: {
+    color: colors.muted,
+    fontSize: 13, 
+    marginBottom: 12, 
+  },
+  divider: {
+    height: 1,
+    backgroundColor: '#ffffff22',
+    marginBottom: 12,
+  },
+  logout: {
+    color: '#ff6b6b',
+    fontWeight: '600'
+  },
+  username: {
+    color: colors.white,
+    fontWeight: 'bold',
+    marginBottom: 4,
+  },
+  profileDropdown: {
+    position: 'absolute',
+    top: 60,
+    right: 12,
+    backgroundColor: '#1e2a3a',
+    borderRadius: 10,
+    padding: 16,
+    width: 250,
+    zIndex: 100,
+    elevation: 10,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+  }
+})

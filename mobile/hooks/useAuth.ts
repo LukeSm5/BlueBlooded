@@ -11,6 +11,7 @@ export function useAuth() {
     const [loading, setLoading] = useState(false)
     const [user, setUser] = useState<User | null>(null)
     const [error, setError] = useState('')
+    const [profile, setProfile] = useState<{ username: string; bio: string } | null>(null);
     const router = useRouter();
 
      useEffect(() => {
@@ -25,6 +26,20 @@ export function useAuth() {
         return () => subscription.unsubscribe();
     }, []);
 
+    useEffect(() => {
+        if (user) fetchProfile(user.id);
+        else setProfile(null);
+    }, [user]);
+
+    const fetchProfile = async (userId: string) => {
+        const { data, error } = await supabase
+        .from('users')
+        .select('username, bio')
+        .eq('id', userId)
+        .single();
+
+        if (data) setProfile(data);
+    };
     const validateSharedFields = () => {
         const emailError = validateEmail(email);
         if (emailError) {
@@ -80,6 +95,21 @@ export function useAuth() {
             setError(error.message);
             return;
         }
+        if (data.user) {
+        const { error: profileError } = await supabase
+            .from('users')
+            .insert({
+                id: data.user.id,
+                email: email.trim(),
+                username: username.trim(),
+            });
+
+        if (profileError) {
+            setError(profileError.message);
+            return;
+        }
+        }
+        
         router.replace('/(tabs)')
     }
     
@@ -98,6 +128,6 @@ export function useAuth() {
 
     return { email, setEmail, password, setPassword, username,
             setUsername, error, loading, handleLogin, handleRegister, user,
-        handleLogout }
+        handleLogout, profile }
 
 }

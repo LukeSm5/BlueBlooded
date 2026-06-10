@@ -24,7 +24,6 @@ export default function RootLayout() {
   return ( 
   <Stack
   screenOptions={{
-    header: () => <Header />,
     contentStyle: { backgroundColor: colors.background },
   }}>
     <Stack.Screen name="index" />

@@ -3,10 +3,11 @@ import { colors } from '../../constants/colors';
 import Button  from './Button';
 import { useRouter } from 'expo-router';
 import { useAuth } from '../../hooks/useAuth';
+import { useState } from 'react';
 
-export function Header() {
+export function Header({ onProfilePress }: { onProfilePress: () => void }) {
     const router = useRouter();
-    const { user, handleLogout } = useAuth();
+    const { user } = useAuth();
     return (
         <View style={styles.container}>
             <View style={styles.side}/>
@@ -16,7 +17,7 @@ export function Header() {
                 resizeMode="contain"
             />
             <View style={styles.side}>
-            {user ? <Button icon="person-outline" onPress={handleLogout} variant="primary"/>
+            {user ? <Button icon="person-outline" onPress={onProfilePress} variant="primary"/>
             : <Button label="Login" onPress={() => router.push('/auth/login')} variant="primary" /> }
             </View>
         </View>
