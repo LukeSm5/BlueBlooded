@@ -16,7 +16,7 @@ export function Header() {
                 resizeMode="contain"
             />
             <View style={styles.side}>
-            {user ? <Button label="Logout" onPress={handleLogout} variant="primary"/>
+            {user ? <Button icon="person-outline" onPress={handleLogout} variant="primary"/>
             : <Button label="Login" onPress={() => router.push('/auth/login')} variant="primary" /> }
             </View>
         </View>
