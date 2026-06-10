@@ -1,14 +1,17 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
-import { Tabs } from 'expo-router'
+import { Tabs, useRouter } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
 import { Header } from '../../components/shared/Header'
 import { colors } from '../../constants/colors'
 import { useState } from 'react'
 import { useAuth } from '../../hooks/useAuth'
+import Button from '../../components/shared/Button'
 
 export default function TabLayout() {
   const [profileVisible, setProfileVisible] = useState(false);
   const { profile, handleLogout } = useAuth();
+  const router = useRouter();
+
   return (
     <View style={{ flex: 1 }}>
       <Header onProfilePress={() => setProfileVisible(prev => !prev)} />
@@ -17,9 +20,14 @@ export default function TabLayout() {
           <Text style={styles.username}>{profile?.username}</Text>
           <Text style={styles.bio}>No bio yet.</Text>
           <View style={styles.divider} />
-          <TouchableOpacity onPress={() => { handleLogout(); setProfileVisible(false); }}>
-            <Text style={styles.logout}>Log Out</Text>
-          </TouchableOpacity>
+          <View style= {{ flexDirection: 'row'}}>
+            <TouchableOpacity onPress={() => { handleLogout(); setProfileVisible(false); }}>
+              <Text style={styles.logout}>Log Out</Text>
+            </TouchableOpacity>
+            <View style={styles.button}>
+              <Button onPress={() => (router.push('/tabs'))} icon='settings' variant='ghost' size='sm'></Button>
+            </View>
+          </View>
         </View>
       )}
       <Tabs
@@ -72,11 +80,12 @@ const styles = StyleSheet.create({
   divider: {
     height: 1,
     backgroundColor: '#ffffff22',
-    marginBottom: 12,
+    marginBottom: 8,
   },
   logout: {
     color: '#ff6b6b',
-    fontWeight: '600'
+    fontWeight: '600',
+    top: 3
   },
   username: {
     color: colors.white,
@@ -96,5 +105,9 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOpacity: 0.3,
     shadowRadius: 8,
+  },
+  button: {
+    top: 1,
+    left: 120,
   }
 })
