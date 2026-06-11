@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { supabase } from '../services/supabaseClient';
+import { useAuth } from './useAuth';
 export function useCommunity() {
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
@@ -7,11 +8,13 @@ export function useCommunity() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [error, setError] = useState('');
+    const { user } = useAuth();
 
 
     async function createDiscussion() {
         const { data, error } = await supabase.from('threads').insert({
 
+            user_id: user?.id,
             title: title.trim(),
             body: content.trim(),
             category: selectedCategory, 

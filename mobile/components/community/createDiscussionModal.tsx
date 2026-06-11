@@ -1,13 +1,12 @@
-import { useCommunity } from '../../hooks/useCommunity';
 import { Modal, View, Text, StyleSheet } from 'react-native';
 import TextInput from '../shared/TextInput';
-import { useState } from 'react';
 import Button from '../shared/Button';
 import { colors } from '../../constants/colors';
 import { CategoryDropDown } from './categoryDropDown';
+import { useCommunityContext } from '../../context/communityContext';
 
 export function CreateDiscussionModal() {
-    const { isCreateOpen, setIsCreateOpen, title, setTitle, content, setContent, error, setError, createDiscussion } = useCommunity();
+    const { isCreateOpen, setIsCreateOpen, title, setTitle, content, setContent, error, setError, createDiscussion } = useCommunityContext();
 
     return (
         <View>

@@ -8,8 +8,17 @@ import { CreateDiscussionModal } from '../../components/community/createDiscussi
 import { supabase } from '../../services/supabaseClient';
 import { Thread } from '../../types/thread';
 import PostPill from '../../components/community/PostPill';
+import { CommunityProvider } from '../../context/communityContext';
 
 const CommunityScreen = () => {
+    return (
+        <CommunityProvider>
+            <CommunityScreenInner />
+        </CommunityProvider>
+    );
+};
+
+const CommunityScreenInner = () => {
     const [search, setSearch] = useState('');
     const [topPosts, setTopPosts] = useState<Thread[]>([]);
     const [userPosts, setUserPosts] = useState<Thread[]>([]);
@@ -56,6 +65,7 @@ const CommunityScreen = () => {
                 </View>
                 <CategoryFilter />
             </View>
+            <CreateDiscussionModal />
              <ScrollView contentContainerStyle={styles.feed}>
             <Text style={styles.subtitle}>Top Posts</Text>
             {loading ? (
@@ -89,7 +99,6 @@ const CommunityScreen = () => {
                 ))
             )}
         </ScrollView>
-        <CreateDiscussionModal />
         </SafeAreaView>
 
     );

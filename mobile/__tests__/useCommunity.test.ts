@@ -5,6 +5,7 @@
 import { renderHook, act } from '@testing-library/react';
 import { useCommunity } from '../hooks/useCommunity';
 import { supabase } from '../services/supabaseClient';
+import { useCommunityContext } from '../context/communityContext';
 
 jest.mock('../services/supabaseClient', () => ({
   supabase: {
@@ -24,7 +25,7 @@ describe('createDiscussion', () => {
   it('inserts a thread into supabase with correct fields', async () => {
     mockInsert.mockResolvedValue({ data: [{ id: 'abc' }], error: null });
 
-    const { result } = renderHook(() => useCommunity());
+    const { result } = renderHook(() => useCommunityContext());
 
     act(() => {
       result.current.setTitle('Test Title');
@@ -49,7 +50,7 @@ describe('createDiscussion', () => {
   it('trims whitespace from title and body before inserting', async () => {
     mockInsert.mockResolvedValue({ data: [{ id: 'abc' }], error: null });
 
-    const { result } = renderHook(() => useCommunity());
+    const { result } = renderHook(() => useCommunityContext());
 
     act(() => {
       result.current.setTitle('  Spaced Title  ');
@@ -71,7 +72,7 @@ describe('createDiscussion', () => {
   it('sets error state when supabase returns an error', async () => {
     mockInsert.mockResolvedValue({ data: null, error: { message: 'Insert failed' } });
 
-    const { result } = renderHook(() => useCommunity());
+    const { result } = renderHook(() => useCommunityContext());
 
     await act(async () => {
       await result.current.createDiscussion();
@@ -83,7 +84,7 @@ describe('createDiscussion', () => {
   it('clears error on a successful insert', async () => {
     mockInsert.mockResolvedValue({ data: [{ id: 'abc' }], error: null });
 
-    const { result } = renderHook(() => useCommunity());
+    const { result } = renderHook(() => useCommunityContext());
 
     // set a prior error first
     act(() => result.current.setError('old error'));

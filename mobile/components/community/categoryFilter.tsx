@@ -1,12 +1,11 @@
 import { categories } from '../../constants/categories';
-import { useState } from 'react';
 import { Modal, View, Text, StyleSheet} from 'react-native';
 import Button from '../shared/Button';
-import { useCommunity } from '../../hooks/useCommunity';
 import { colors } from '../../constants/colors';
+import { useCommunityContext } from '../../context/communityContext';
 
 export function CategoryFilter() {
-    const { isFilterOpen, setIsFilterOpen, selectedCategory, toggleCategory, clearFilters } = useCommunity();
+    const { isFilterOpen, setIsFilterOpen, selectedCategory, toggleCategory, clearFilters } = useCommunityContext();
 
     return (
         <View>
