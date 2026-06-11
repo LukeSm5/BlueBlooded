@@ -10,3 +10,7 @@ export type Thread = {
     created_at: string;
     updated_at: string;
 }
+
+export type Props = { 
+    onCreated: () => void
+}; 

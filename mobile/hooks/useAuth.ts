@@ -126,6 +126,10 @@ export function useAuth() {
         router.replace('/auth/login')
     }
 
+    const userIdToUsername = async () => {
+        return 
+    }
+
     return { email, setEmail, password, setPassword, username,
             setUsername, error, loading, handleLogin, handleRegister, user,
         handleLogout, profile }

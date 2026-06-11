@@ -9,6 +9,7 @@ import { supabase } from '../../services/supabaseClient';
 import { Thread } from '../../types/thread';
 import PostPill from '../../components/community/PostPill';
 import { CommunityProvider } from '../../context/communityContext';
+import { useAuth } from '../../hooks/useAuth';
 
 const CommunityScreen = () => {
     return (
@@ -23,6 +24,7 @@ const CommunityScreenInner = () => {
     const [topPosts, setTopPosts] = useState<Thread[]>([]);
     const [userPosts, setUserPosts] = useState<Thread[]>([]);
     const [loading, setLoading] = useState(true);
+    const { profile } = useAuth();
 
     useEffect(() => {
         fetchPosts();
@@ -65,7 +67,7 @@ const CommunityScreenInner = () => {
                 </View>
                 <CategoryFilter />
             </View>
-            <CreateDiscussionModal />
+            <CreateDiscussionModal onCreated={fetchPosts}/>
              <ScrollView contentContainerStyle={styles.feed}>
             <Text style={styles.subtitle}>Top Posts</Text>
             {loading ? (
@@ -76,7 +78,7 @@ const CommunityScreenInner = () => {
                         key={post.id}
                         title={post.title}
                         description={post.body}
-                        username={post.user_id}
+                        username={profile?.username ?? "No username yet"}
                         timestamp={new Date(post.created_at).toLocaleDateString()}
                         initialLikes={0}
                     />
@@ -92,7 +94,7 @@ const CommunityScreenInner = () => {
                         key={post.id}
                         title={post.title}
                         description={post.body}
-                        username={post.user_id}
+                        username={profile?.username ?? "No username yet"}
                         timestamp={new Date(post.created_at).toLocaleDateString()}
                         initialLikes={0}
                     />

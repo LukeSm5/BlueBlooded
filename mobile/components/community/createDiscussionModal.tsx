@@ -4,8 +4,9 @@ import Button from '../shared/Button';
 import { colors } from '../../constants/colors';
 import { CategoryDropDown } from './categoryDropDown';
 import { useCommunityContext } from '../../context/communityContext';
+import { Props } from '../../types/thread';
 
-export function CreateDiscussionModal() {
+export function CreateDiscussionModal({ onCreated }: Props) {
     const { isCreateOpen, setIsCreateOpen, title, setTitle, content, setContent, error, setError, createDiscussion } = useCommunityContext();
 
     return (
@@ -36,12 +37,20 @@ export function CreateDiscussionModal() {
                             multiline
                         />
                         <CategoryDropDown />
+                        {error ? (
+                            <Text style={styles.error}>{error}</Text>
+                        ) : null}
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
-                        <Button label="Create" onPress={() => {
-                            createDiscussion();
-                            setIsCreateOpen(false);
+                        <Button label="Create" onPress={async () => {
+                            const success = await createDiscussion();
+                            if (success) {
+                                setIsCreateOpen(false);
+                                onCreated();
+                            }
                         }} />
-                        <Button label="Cancel" onPress={() => setIsCreateOpen(false)} />
+                        <Button label="Cancel" onPress={() => {setIsCreateOpen(false);
+                            setError('');
+                        }} />
                         </View>
                     </View>
                 </View>
@@ -64,9 +73,9 @@ const styles = StyleSheet.create({
     width: '85%',
     },
     buttonContainer: {
-        position: 'absolute',
-        top: 10,
-        right: 10,
+        alignItems: 'flex-end',
+        paddingHorizontal: 16,
+        marginBottom: 8
     },
     title: {
         color: colors.white,
@@ -74,5 +83,11 @@ const styles = StyleSheet.create({
         marginBottom: 12,
         textAlign: 'center',
         fontFamily: 'Anton-Regular',
+    },
+    error: {
+        color: 'red',
+        fontSize: 13,
+        textAlign: 'center',
+        marginTop: 8,
     }
 })

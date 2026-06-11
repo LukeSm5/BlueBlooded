@@ -1,17 +1,17 @@
 import { Picker } from '@react-native-picker/picker';
 import { categories } from '../../constants/categories';
-import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { colors } from '../../constants/colors';
+import { useCommunityContext } from '../../context/communityContext';
 
 export function CategoryDropDown() {
-    const [selected, setSelected] = useState(categories[0]);
+    const { createCategory, setCreateCategory } = useCommunityContext();
     return (
         <View>
             <Text style={styles.label}>Category</Text>
             <Picker
-                selectedValue={selected}
-                onValueChange={(itemValue) => setSelected(itemValue)}
+                selectedValue={createCategory}
+                onValueChange={(itemValue) => setCreateCategory(itemValue)} 
                 >
                 {categories.map((category) => (
                     <Picker.Item key={category} label={category} value={category} />
