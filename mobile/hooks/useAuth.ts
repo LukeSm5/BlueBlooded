@@ -126,12 +126,18 @@ export function useAuth() {
         router.replace('/auth/login')
     }
 
-    const userIdToUsername = async () => {
-        return 
+    const userIdToUsername = async (userId: string): Promise<string> => {
+        const { data } = await supabase
+        .from('users')
+        .select('username')
+        .eq('id', userId)
+        .single();
+
+    return data?.username ?? 'No username yet';
     }
 
     return { email, setEmail, password, setPassword, username,
             setUsername, error, loading, handleLogin, handleRegister, user,
-        handleLogout, profile }
+        handleLogout, profile, userIdToUsername }
 
 }

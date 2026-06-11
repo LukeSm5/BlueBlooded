@@ -24,7 +24,8 @@ const CommunityScreenInner = () => {
     const [topPosts, setTopPosts] = useState<Thread[]>([]);
     const [userPosts, setUserPosts] = useState<Thread[]>([]);
     const [loading, setLoading] = useState(true);
-    const { profile } = useAuth();
+    const { profile, userIdToUsername } = useAuth();
+    const [usernameMap, setUsernameMap] = useState<Record<string, string>>({});
 
     useEffect(() => {
         fetchPosts();
@@ -46,6 +47,13 @@ const CommunityScreenInner = () => {
             .order('created_at', { ascending: false });
         setTopPosts(top ?? []);
         setUserPosts(mine ?? []);
+        const allPosts = [...(top ?? []), ...(mine ?? [])];
+        const uniqueUserIds = [...new Set(allPosts.map(p => p.user_id))];
+
+        const entries = await Promise.all(
+            uniqueUserIds.map(async (id) => [id, await userIdToUsername(id)])
+        );
+        setUsernameMap(Object.fromEntries(entries));
         setLoading(false);
     }
 
@@ -78,7 +86,7 @@ const CommunityScreenInner = () => {
                         key={post.id}
                         title={post.title}
                         description={post.body}
-                        username={profile?.username ?? "No username yet"}
+                        username={usernameMap[post.user_id] ?? 'No username yet'}
                         timestamp={new Date(post.created_at).toLocaleDateString()}
                         initialLikes={0}
                     />
