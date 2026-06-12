@@ -1,9 +1,8 @@
 # BlueBlooded
-An app used to consolidate Ryan Hammer content, such as the BlueBlooded podcast, short form content, and relevant statistics.
-
 
 ## Project Overview
-
+An app used to consolidate Ryan Hammer content, such as the BlueBlooded podcast, short form content, and relevant statistics.  
+Shooting for a July-August 2026 launch date. Currently still a prototype.
 ## Tech Stack
 Frontend: React Native + Expo (TypeScript)  
 Backend: FastAPI  
