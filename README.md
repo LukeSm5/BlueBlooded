@@ -5,6 +5,9 @@ An app used to consolidate Ryan Hammer content, such as the BlueBlooded podcast,
 ## Project Overview
 
 ## Tech Stack
+Frontend: React Native + Expo (TypeScript)
+Backend: FastAPI
+Database: Supabase (PostgreSQL + Auth + Storage)
 
 ## Getting Started 
 
