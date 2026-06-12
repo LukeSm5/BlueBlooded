@@ -4,26 +4,43 @@ import TextInput from '../../components/shared/TextInput'
 import Button from '../../components/shared/Button'
 import { useAuth } from '../../hooks/useAuth'
 import { useState } from 'react'
+import { supabase } from '../../services/supabaseClient'
+import * as Linking from 'expo-linking'
+import { useEffect } from 'react'
 
 export default function resetPassword() {
-  const { email, setEmail, error, loading } = useAuth();
+  const { error, setError, loading } = useAuth();
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  function handleResetPassword() {
+  useEffect(() => {
+    Linking.getInitialURL().then((url) => {
+      if (url) {
+        supabase.auth.exchangeCodeForSession(url);
+      }
+    });
+  }, []);
+
+  const handleResetPassword = async () =>  {
+    setError('');
+    if (newPassword != confirmPassword) {
+      setError('Passwords must match');
+      return;
+    }
+    const {error: updateError} = await supabase.auth.updateUser({
+      password: newPassword
+    });
+
+    if (updateError) {
+      setError(updateError.message);
+      return;
+    }
+    router.push('/auth/login');
 
   }
   return (
     <View style={styles.container}>
       <View style={styles.form}>
-
-        <TextInput
-          label="Email"
-          placeholder="you@example.com"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-        />
         <TextInput
           label="New Password"
           placeholder="••••••••"

@@ -1,11 +1,28 @@
-import { View, StyleSheet, Text } from 'react-native'
+import { View, StyleSheet, Text, Alert } from 'react-native'
 import { router } from 'expo-router'
 import TextInput from '../../components/shared/TextInput'
 import Button from '../../components/shared/Button'
 import { useAuth } from '../../hooks/useAuth'
+import { useState } from 'react'
+import { supabase } from '../../services/supabaseClient'
 
-export default function Login() {
-  const { email, setEmail, password, setPassword, error, loading, handleLogin } = useAuth();
+export default function resetPassword() {
+  const { email, setEmail, error, setError, loading } = useAuth();
+
+  const handleResetPasswordEmail = async () => {
+    setError('');
+
+    const {error: resetError} = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: 'blueblooded://auth/reset-password',
+    });
+    if (resetError) {
+        setError(resetError.message);
+        return;
+    }
+
+    Alert.alert('Email successfully sent.')
+    router.push('/auth/login')
+  }
 
   return (
     <View style={styles.container}>
@@ -19,29 +36,15 @@ export default function Login() {
           keyboardType="email-address"
         />
 
-        <TextInput
-          label="Password"
-          placeholder="••••••••"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
         {error ? <Text style={styles.error}>{error}</Text> : null}
         <View style={styles.buttons}>
           <View style={styles.buttonWrapper}>
-            <Button label="Log in" onPress={handleLogin} fullWidth />
+            <Button label="Back" onPress={() => router.push('/auth/login') } fullWidth />
           </View>
           <View style={styles.buttonWrapper}>
-            <Button label="Register" onPress={() => router.push('/auth/register')} variant="primary" fullWidth />
+            <Button label="Send Email" onPress={handleResetPasswordEmail} variant="primary" fullWidth />
           </View>
         </View>
-
-        <Button
-          label="Forgot password?"
-          onPress={() => router.push('/auth/resetPasswordEmail')}
-          variant="ghost"
-          fullWidth
-        />
 
       </View>
     </View>

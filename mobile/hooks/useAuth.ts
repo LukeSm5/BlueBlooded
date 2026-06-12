@@ -137,7 +137,7 @@ export function useAuth() {
     }
 
     return { email, setEmail, password, setPassword, username,
-            setUsername, error, loading, handleLogin, handleRegister, user,
+            setUsername, error, setError, loading, handleLogin, handleRegister, user,
         handleLogout, profile, userIdToUsername }
 
 }
