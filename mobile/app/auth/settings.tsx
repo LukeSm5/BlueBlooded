@@ -3,10 +3,16 @@ import { router } from 'expo-router'
 import TextInput from '../../components/shared/TextInput'
 import Button from '../../components/shared/Button'
 import { useAuth } from '../../hooks/useAuth'
+import { useState } from 'react'
 
-export default function Login() {
-  const { email, setEmail, password, setPassword, error, loading, handleLogin } = useAuth();
+export default function resetPassword() {
+  const { email, setEmail, error, loading, user } = useAuth();
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
+  function handleResetPassword() {
+
+  }
   return (
     <View style={styles.container}>
       <View style={styles.form}>
@@ -18,30 +24,23 @@ export default function Login() {
           onChangeText={setEmail}
           keyboardType="email-address"
         />
+        
 
-        <TextInput
-          label="Password"
-          placeholder="••••••••"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
         {error ? <Text style={styles.error}>{error}</Text> : null}
         <View style={styles.buttons}>
           <View style={styles.buttonWrapper}>
-            <Button label="Log in" onPress={handleLogin} fullWidth />
+            <Button label="Back" onPress={() => {
+              if (user) {
+                router.push('/(tabs)');
+              } else {
+                router.push('/auth/login');
+              }
+            }} fullWidth />
           </View>
           <View style={styles.buttonWrapper}>
-            <Button label="Register" onPress={() => router.push('/auth/register')} variant="primary" fullWidth />
+            <Button label="Reset Password" onPress={handleResetPassword} variant="primary" fullWidth />
           </View>
         </View>
-
-        <Button
-          label="Forgot password?"
-          onPress={() => router.push('/auth/resetPassword')}
-          variant="ghost"
-          fullWidth
-        />
 
       </View>
     </View>

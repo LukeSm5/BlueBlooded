@@ -25,7 +25,7 @@ export default function TabLayout() {
               <Text style={styles.logout}>Log Out</Text>
             </TouchableOpacity>
             <View style={styles.button}>
-              <Button onPress={() => (router.push('/tabs'))} icon='settings' variant='ghost' size='sm'></Button>
+              <Button onPress={() => (router.push('/auth/settings'))} icon='settings' variant='ghost' size='sm'></Button>
             </View>
           </View>
         </View>
