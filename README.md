@@ -14,7 +14,10 @@ Database: Supabase (PostgreSQL + Auth + Storage)
 ## Architecture Decisions
 
 ## Current Features
-
+- Auth (Register, Login)
+- Discussion Board
+  - Create Post
+  - See other users posts
 ## Project Structure
 
 ## Environment Variables
