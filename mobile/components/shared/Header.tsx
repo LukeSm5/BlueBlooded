@@ -5,7 +5,7 @@ import { useRouter } from 'expo-router';
 import { useAuth } from '../../hooks/useAuth';
 import { useState } from 'react';
 
-export function Header({ onProfilePress }: { onProfilePress: () => void }) {
+export function Header({ onProfilePress }: { onProfilePress?: () => void }) {
     const router = useRouter();
     const { user } = useAuth();
     return (
@@ -17,8 +17,8 @@ export function Header({ onProfilePress }: { onProfilePress: () => void }) {
                 resizeMode="contain"
             />
             <View style={styles.side}>
-            {user ? <Button icon="person-outline" onPress={onProfilePress} variant="primary"/>
-            : <Button label="Login" onPress={() => router.push('/auth/login')} variant="primary" /> }
+            {onProfilePress && (user ? <Button icon="person-outline" onPress={onProfilePress} variant="primary"/>
+            : <Button label="Login" onPress={() => router.push('/auth/login')} variant="primary" /> )}
             </View>
         </View>
     );

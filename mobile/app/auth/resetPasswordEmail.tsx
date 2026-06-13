@@ -5,6 +5,7 @@ import Button from '../../components/shared/Button'
 import { useAuth } from '../../hooks/useAuth'
 import { useState } from 'react'
 import { supabase } from '../../services/supabaseClient'
+import { Header } from '../../components/shared/Header'
 
 export default function resetPassword() {
   const { email, setEmail, error, setError, loading } = useAuth();
@@ -25,27 +26,30 @@ export default function resetPassword() {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.form}>
+    <View style={{flex: 1}}>
+      <Header/>
+      <View style={styles.container}>
+        <View style={styles.form}>
 
-        <TextInput
-          label="Email"
-          placeholder="you@example.com"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-        />
+          <TextInput
+            label="Email"
+            placeholder="you@example.com"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+          />
 
-        {error ? <Text style={styles.error}>{error}</Text> : null}
-        <View style={styles.buttons}>
-          <View style={styles.buttonWrapper}>
-            <Button label="Back" onPress={() => router.push('/auth/login') } fullWidth />
+          {error ? <Text style={styles.error}>{error}</Text> : null}
+          <View style={styles.buttons}>
+            <View style={styles.buttonWrapper}>
+              <Button label="Back" onPress={() => router.push('/auth/login') } fullWidth />
+            </View>
+            <View style={styles.buttonWrapper}>
+              <Button label="Send Email" onPress={handleResetPasswordEmail} variant="primary" fullWidth />
+            </View>
           </View>
-          <View style={styles.buttonWrapper}>
-            <Button label="Send Email" onPress={handleResetPasswordEmail} variant="primary" fullWidth />
-          </View>
+
         </View>
-
       </View>
     </View>
   )

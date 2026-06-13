@@ -3,6 +3,7 @@ import { colors } from '../constants/colors';
 import { Header } from '../components/shared/Header';
 import { useFonts } from 'expo-font';
 import { useEffect } from 'react';
+import { View } from 'react-native';
 
 export default function RootLayout() {
   const [ loaded ] = useFonts({
@@ -22,10 +23,11 @@ export default function RootLayout() {
     return null;
   }
   return ( 
-  <Stack
-  screenOptions={{
-    contentStyle: { backgroundColor: colors.background },
-  }}>
+  <View style = {{flex: 1}}>
+    <Stack
+      screenOptions={{
+      contentStyle: { backgroundColor: colors.background },
+    }}>
     <Stack.Screen name="index" />
     <Stack.Screen name="auth/register"
     options={{ headerShown: false }} />
@@ -37,6 +39,9 @@ export default function RootLayout() {
     options={{ headerShown: false }} />
     <Stack.Screen name="(tabs)"
     options={{ headerShown: false }} />
+    <Stack.Screen name="auth/resetPasswordEmail"
+    options={{ headerShown: false }} />
   </Stack>
+  </View>
   );
 }

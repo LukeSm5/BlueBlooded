@@ -3,11 +3,14 @@ import { router } from 'expo-router'
 import TextInput from '../../components/shared/TextInput'
 import Button from '../../components/shared/Button'
 import { useAuth } from '../../hooks/useAuth'
+import { Header } from '../../components/shared/Header'
 
 export default function Login() {
   const { email, setEmail, password, setPassword, error, loading, handleLogin } = useAuth();
 
   return (
+    <View style = {{flex: 1}}>
+            <Header/>
     <View style={styles.container}>
       <View style={styles.form}>
 
@@ -44,6 +47,7 @@ export default function Login() {
         />
 
       </View>
+    </View>
     </View>
   )
 }
