@@ -28,22 +28,18 @@ export function CategoryFilter() {
                                 const isSelected = selectedCategory.includes(category);
 
                                 return (
-                                    <View key={category}>
                                     <Button
+                                        key={category}
                                         label={category}
                                         onPress={() => toggleCategory(category)}
+                                        style = {isSelected ? styles.selectedButton : undefined}
                                     />
-                                    <Text style={isSelected && styles.selectedText}>
-                                    {category}
-                                    </Text>
-                                </View>
-
                                 );
                             })}
                         </View>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
                             <Button label="Clear Filters" onPress={clearFilters} size='sm' />
-                            <Button label="Close" onPress={() => setIsFilterOpen(false)} size='sm' />
+                            <Button label="Apply" onPress={() => setIsFilterOpen(false)} size='sm' />
                         </View>
                     </View>
                 </View>
@@ -88,7 +84,7 @@ const styles = StyleSheet.create({
     margin: 4,
   },
   selectedButton: {
-    backgroundColor: 'black',
+    backgroundColor: '#6b9fd4',
   },
   selectedText: {
     color: 'white',
