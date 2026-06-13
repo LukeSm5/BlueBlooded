@@ -2,6 +2,7 @@
 .expo/
 dist/
 web-build/
+android/
 
 # Dependencies
 node_modules/
