@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { Header } from '../../components/shared/Header'
 import { useEffect } from 'react'
 import { supabase } from '../../services/supabaseClient'
+import { colors } from '../../constants/colors'
 
 export default function settings() {
   const { bio, setBio, error, loading, user, username, setUsername, setError } = useAuth();
@@ -66,37 +67,40 @@ async function handleChangeBio() {
   return (
     <View style={{flex: 1}}>
       <Header/>
-      <View style={styles.container}>
-        <View style={styles.form}>
+      <View style={{flex: 1}}>
+        <Text style={styles.title}>Edit Account Details</Text>
+        <View style={styles.container}>
+          <View style={styles.form}>
 
-          <TextInput
-            label="Username"
-            placeholder={localUsername}
-            value={localUsername}
-            onChangeText={setLocalUsername}
-          />
-          <TextInput
-            label="Bio"
-            placeholder={localBio}
-            value={localBio}
-            onChangeText={setLocalBio}
-          />
-          
+            <TextInput
+              label="Username"
+              placeholder={localUsername}
+              value={localUsername}
+              onChangeText={setLocalUsername}
+            />
+            <TextInput
+              label="Bio"
+              placeholder={localBio}
+              value={localBio}
+              onChangeText={setLocalBio}
+            />
+            
 
-          {error ? <Text style={styles.error}>{error}</Text> : null}
-          <View style={styles.buttons}>
-            <View style={styles.buttonWrapper}>
-              <Button label="Back" onPress={() => {
-                  router.push('/(tabs)');
-              }} fullWidth />
+            {error ? <Text style={styles.error}>{error}</Text> : null}
+            <View style={styles.buttons}>
+              <View style={styles.buttonWrapper}>
+                <Button label="Back" onPress={() => {
+                    router.push('/(tabs)');
+                }} fullWidth />
+              </View>
+              <View style={styles.buttonWrapper}>
+                <Button label="Update Details" onPress={async () => {
+                  await handleChangeUsername();
+                  await handleChangeBio(); }} variant="primary" fullWidth />
+              </View>
             </View>
-            <View style={styles.buttonWrapper}>
-              <Button label="Update Details" onPress={async () => {
-                await handleChangeUsername();
-                await handleChangeBio(); }} variant="primary" fullWidth />
-            </View>
+
           </View>
-
         </View>
       </View>
     </View>
@@ -105,7 +109,7 @@ async function handleChangeBio() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 4,
     justifyContent: 'center',
     paddingHorizontal: 24,
   },
@@ -125,4 +129,11 @@ const styles = StyleSheet.create({
   buttonWrapper: {
     flex: 1,
   },
+  title: {
+    marginTop: 20,
+    color: colors.white,
+    fontSize: 24,
+    textAlign: 'center',
+    fontFamily: 'Anton-Regular',
+  }
 })
