@@ -37,4 +37,5 @@ blueblooded/
 .env contains
 - SUPABASE_URL
 - SUPABASE_ANON_KEY
+
 All of this is gitignored, so you must use your own.
