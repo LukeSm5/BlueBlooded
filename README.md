@@ -17,6 +17,7 @@ Database: Supabase (PostgreSQL + Auth + Storage)
 - Discussion Board
   - Create Post
   - See other users posts
+- Change user information (Bio, Username)
 ## Project Structure
 ```
 blueblooded/
