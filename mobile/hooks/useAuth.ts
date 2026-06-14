@@ -12,6 +12,7 @@ export function useAuth() {
     const [user, setUser] = useState<User | null>(null)
     const [error, setError] = useState('')
     const [profile, setProfile] = useState<{ username: string; bio: string } | null>(null);
+    const [bio, setBio] = useState('');
     const router = useRouter();
 
      useEffect(() => {
@@ -138,6 +139,6 @@ export function useAuth() {
 
     return { email, setEmail, password, setPassword, username,
             setUsername, error, setError, loading, handleLogin, handleRegister, user,
-        handleLogout, profile, userIdToUsername }
+        handleLogout, profile, userIdToUsername, bio, setBio }
 
 }

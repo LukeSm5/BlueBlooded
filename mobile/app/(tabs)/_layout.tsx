@@ -18,7 +18,7 @@ export default function TabLayout() {
       {profileVisible && (
         <View style={styles.profileDropdown}>
           <Text style={styles.username}>{profile?.username}</Text>
-          <Text style={styles.bio}>No bio yet.</Text>
+          <Text style={styles.bio}>{profile?.bio}</Text>
           <View style={styles.divider} />
           <View style= {{ flexDirection: 'row'}}>
             <TouchableOpacity onPress={() => { handleLogout(); setProfileVisible(false); }}>

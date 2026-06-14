@@ -5,15 +5,64 @@ import Button from '../../components/shared/Button'
 import { useAuth } from '../../hooks/useAuth'
 import { useState } from 'react'
 import { Header } from '../../components/shared/Header'
+import { useEffect } from 'react'
+import { supabase } from '../../services/supabaseClient'
 
-export default function resetPassword() {
-  const { email, setEmail, error, loading, user } = useAuth();
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+export default function settings() {
+  const { bio, setBio, error, loading, user, username, setUsername, setError } = useAuth();
+  const [localUsername, setLocalUsername] = useState('');
+  const [localBio, setLocalBio] = useState('');
 
-  function handleResetPassword() {
+  useEffect(() => {
+    if (username) setLocalUsername(username);
+  }, [username]);
 
+  useEffect(() => {
+  if (bio) setLocalBio(bio);
+  }, [bio]);
+
+  async function handleChangeUsername() {
+  if (!user) {
+    setError("You are not logged in.");
+    return;
   }
+  if (localUsername === username) {
+    setError("Username is the same as your current one.");
+    return;
+  }
+
+  const { error } = await supabase
+    .from('users')
+    .update({ username: localUsername })
+    .eq('id', user.id);
+
+  if (error) {
+    setError(error.message);
+    return;
+  }
+
+  setUsername(localUsername);
+  router.push('/(tabs)');
+}
+
+async function handleChangeBio() {
+  if (!user) {
+    setError("You are not logged in.");
+    return;
+  }
+
+  const { error } = await supabase
+    .from('users')
+    .update({ bio: localBio })
+    .eq('id', user.id);
+
+  if (error) {
+    setError(error.message);
+    return;
+  }
+  setBio(localBio);
+  router.push('/(tabs)');
+}
   return (
     <View style={{flex: 1}}>
       <Header/>
@@ -21,11 +70,16 @@ export default function resetPassword() {
         <View style={styles.form}>
 
           <TextInput
-            label="Email"
-            placeholder="you@example.com"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
+            label="Username"
+            placeholder={localUsername}
+            value={localUsername}
+            onChangeText={setLocalUsername}
+          />
+          <TextInput
+            label="Bio"
+            placeholder={localBio}
+            value={localBio}
+            onChangeText={setLocalBio}
           />
           
 
@@ -37,7 +91,9 @@ export default function resetPassword() {
               }} fullWidth />
             </View>
             <View style={styles.buttonWrapper}>
-              <Button label="Update Details" onPress={handleResetPassword} variant="primary" fullWidth />
+              <Button label="Update Details" onPress={async () => {
+                await handleChangeUsername();
+                await handleChangeBio(); }} variant="primary" fullWidth />
             </View>
           </View>
 
