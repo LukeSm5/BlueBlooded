@@ -17,6 +17,7 @@ Database: Supabase (PostgreSQL + Auth + Storage)
 - Discussion Board
   - Create Post
   - See other users posts
+- Change user information (Bio, Username)
 ## Project Structure
 ```
 blueblooded/
@@ -34,3 +35,8 @@ blueblooded/
 ```
 
 ## Environment Variables
+.env contains
+- SUPABASE_URL
+- SUPABASE_ANON_KEY
+
+All of this is gitignored, so you must use your own.
