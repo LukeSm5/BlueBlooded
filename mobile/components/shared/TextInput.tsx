@@ -36,7 +36,7 @@ export default function TextInput({
           multiline && styles.multiline,
         ]}
         placeholder={placeholder}
-        placeholderTextColor="#999"
+        placeholderTextColor={colors.background}
         value={value}
         onChangeText={onChangeText}
         secureTextEntry={secureTextEntry}
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     fontSize: 14,
     color: '#1a1a1a',
-    backgroundColor: '#fff',
+    backgroundColor: colors.muted,
   },
   inputError: {
     borderColor: '#E24B4A',

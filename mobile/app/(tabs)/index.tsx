@@ -13,6 +13,7 @@ const StatsScreen = () => {
 
     return (
         <View style={styles.container}>
+            <Text style={styles.title}>Statistics</Text>
         </View>
     );
 };
@@ -22,5 +23,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.background,
+    },
+    title: {
+        marginTop: 20,
+        color: colors.white,
+        fontSize: 24,
+        textAlign: 'center',
+        fontFamily: 'Anton-Regular',
     },
 })

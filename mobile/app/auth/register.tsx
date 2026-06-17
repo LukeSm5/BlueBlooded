@@ -4,6 +4,7 @@ import TextInput from '../../components/shared/TextInput'
 import Button from '../../components/shared/Button'
 import { useAuth } from '../../hooks/useAuth'
 import { Header } from '../../components/shared/Header'
+import { colors } from '../../constants/colors'
 
 export default function Register() {
   const { username, setUsername, password, setPassword, email, setEmail, error, loading, handleRegister} = useAuth();
@@ -11,6 +12,7 @@ export default function Register() {
   return (
     <View style={{flex: 1}}>
       <Header/>
+      <Text style={styles.title}>Register</Text>
     <View style={styles.container}>
       <View style={styles.form}>
 
@@ -74,5 +76,12 @@ const styles = StyleSheet.create({
   },
   buttonWrapper: {
     flex: 1,
+  },
+  title: {
+    marginTop: 20,
+    color: colors.white,
+    fontSize: 24,
+    textAlign: 'center',
+    fontFamily: 'Anton-Regular',
   },
 })
