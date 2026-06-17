@@ -26,10 +26,41 @@ const CommunityScreenInner = () => {
     const [loading, setLoading] = useState(true);
     const { profile, userIdToUsername } = useAuth();
     const [usernameMap, setUsernameMap] = useState<Record<string, string>>({});
+    const [likesMap, setLikesMap] = useState<Record<string, { count: number; likedByMe: boolean }>>({});
 
     useEffect(() => {
         fetchPosts();
     }, []);
+
+    useEffect(() => {
+    const channel = supabase
+        .channel('likes-changes')
+        .on(
+            'postgres_changes',
+            { event: '*', schema: 'public', table: 'likes' },
+            (payload) => {
+                const row = payload.eventType === 'DELETE' ? payload.old : payload.new;
+                const threadId = row.thread_id;
+
+                setLikesMap(prev => {
+                    const current = prev[threadId] ?? { count: 0, likedByMe: false };
+                    const delta = payload.eventType === 'INSERT' ? 1 : -1;
+                    return {
+                        ...prev,
+                        [threadId]: {
+                            ...current,
+                            count: Math.max(0, current.count + delta),
+                        },
+                    };
+                });
+            }
+        )
+        .subscribe();
+
+    return () => {
+        supabase.removeChannel(channel);
+    };
+}, []);
 
     const fetchPosts = async () => {
         const { data: { user } } = await supabase.auth.getUser();
@@ -54,6 +85,23 @@ const CommunityScreenInner = () => {
             uniqueUserIds.map(async (id) => [id, await userIdToUsername(id)])
         );
         setUsernameMap(Object.fromEntries(entries));
+        const allIds = allPosts.map(p => p.id);
+
+        const { data: likesData } = await supabase
+            .from('likes')
+            .select('thread_id, user_id')
+            .in('thread_id', allIds);
+
+        const newLikesMap: Record<string, { count: number; likedByMe: boolean }> = {};
+        for (const id of allIds) {
+            const rows = likesData?.filter(l => l.thread_id === id) ?? [];
+            newLikesMap[id] = {
+                count: rows.length,
+                likedByMe: rows.some(l => l.user_id === user?.id),
+            };
+        }
+        setLikesMap(newLikesMap);
+        console.log('likesMap:', JSON.stringify(newLikesMap, null, 2));
         setLoading(false);
     }
 
@@ -84,11 +132,14 @@ const CommunityScreenInner = () => {
                 topPosts.map(post => (
                     <PostPill
                         key={post.id}
+                        postId={post.id}
                         title={post.title}
                         description={post.body}
                         username={usernameMap[post.user_id] ?? 'No username yet'}
                         timestamp={new Date(post.created_at).toLocaleDateString()}
-                        initialLikes={0}
+                        currentUserId={profile?.id ?? ''}
+                        likeCount={likesMap[post.id]?.count ?? 0}
+                        likedByMe={likesMap[post.id]?.likedByMe ?? false}
                     />
                 ))
             )}
@@ -100,11 +151,14 @@ const CommunityScreenInner = () => {
                 userPosts.map(post => (
                     <PostPill
                         key={post.id}
+                        postId={post.id}
                         title={post.title}
                         description={post.body}
                         username={profile?.username ?? "No username yet"}
                         timestamp={new Date(post.created_at).toLocaleDateString()}
-                        initialLikes={0}
+                        currentUserId={profile?.id ?? ''}
+                        likeCount={likesMap[post.id]?.count ?? 0}
+                        likedByMe={likesMap[post.id]?.likedByMe ?? false}
                     />
                 ))
             )}

@@ -11,7 +11,7 @@ export function useAuth() {
     const [loading, setLoading] = useState(false)
     const [user, setUser] = useState<User | null>(null)
     const [error, setError] = useState('')
-    const [profile, setProfile] = useState<{ username: string; bio: string } | null>(null);
+    const [profile, setProfile] = useState<{ id: string; username: string; bio: string } | null>(null);
     const [bio, setBio] = useState('');
     const router = useRouter();
 
@@ -35,7 +35,7 @@ export function useAuth() {
     const fetchProfile = async (userId: string) => {
         const { data, error } = await supabase
         .from('users')
-        .select('username, bio')
+        .select('id, username, bio')
         .eq('id', userId)
         .single();
 

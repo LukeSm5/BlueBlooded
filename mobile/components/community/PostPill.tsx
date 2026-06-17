@@ -5,13 +5,17 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
+import { supabase } from '../../services/supabaseClient';
 
 type PostPillProps = {
+  postId: string;
   title: string;
   description: string;
   username: string;
   timestamp?: string;
-  initialLikes?: number;
+  currentUserId: string;
+  likeCount: number;
+  likedByMe: boolean;
 };
 
 export default function PostPill({
@@ -19,15 +23,31 @@ export default function PostPill({
   description,
   username,
   timestamp = '',
-  initialLikes = 0,
+  likedByMe,
+  likeCount,
+  currentUserId,
+  postId
 }: PostPillProps) {
-  const [liked, setLiked] = useState(false);
-  const [likes, setLikes] = useState(initialLikes);
+  const [liked, setLiked] = useState(likedByMe);
+  const [likes, setLikes] = useState(likeCount);
 
-  const toggleLike = () => {
-    setLiked(prev => !prev);
-    setLikes(prev => (liked ? prev - 1 : prev + 1));
-  };
+  const toggleLike = async () => {
+    if (liked) {
+        await supabase
+            .from('likes')
+            .delete()
+            .eq('thread_id', postId)
+            .eq('user_id', currentUserId);
+        setLiked(false);
+        setLikes(prev => prev - 1);
+    } else {
+        await supabase
+            .from('likes')
+            .insert({ thread_id: postId, user_id: currentUserId });
+        setLiked(true);
+        setLikes(prev => prev + 1);
+    }
+};
 
   const avatarInitials = username
     .replace(/^u\//, '')
