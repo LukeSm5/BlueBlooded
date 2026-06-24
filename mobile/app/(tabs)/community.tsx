@@ -101,7 +101,6 @@ const CommunityScreenInner = () => {
             };
         }
         setLikesMap(newLikesMap);
-        console.log('likesMap:', JSON.stringify(newLikesMap, null, 2));
         setLoading(false);
     }
 
